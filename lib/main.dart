@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> songs = [];
+  List<PlaylistItem> songs = [];
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +70,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          ...songs.map((song) => Text(
-                song,
-              ))
+          Expanded(
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final song = songs[index];
+                return Column(
+                  children: [
+                    Text(song.title),
+                    Text(song.videoOwnerChannelTitle ?? "N/A"),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Container(
+                  height: 1,
+                  color: Colors.grey,
+                );
+              },
+              itemCount: songs.length,
+            ),
+          ),
         ],
       ),
     );
